@@ -1,0 +1,9 @@
+{
+  "name": "Deva4004 Card",
+  "content_in_root": true,
+  "render_readme": true,
+  "filename": "deva-4004-card.js",
+  "dir": "/",
+  "homeassistant": "2023.5.0",
+  "category": "frontend"
+}
