@@ -44,7 +44,7 @@ In the Lovelace UI, you can manually add a card with the following configuration
 | location | object | Optional    | Site Location name           
 | coordinates  | object | Optional    | Site Location coordinates     
 
-###Example
+### Example
 ```yaml
 type: 'custom:deva-4004-card'
 device: 101_1_RADIO
