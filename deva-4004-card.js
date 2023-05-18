@@ -180,15 +180,15 @@ class Deva4004Card extends HTMLElement {
               </div>
               <div class="rds-container">
                 <div class="text-info">PS:</div>
-                <div class="rds-ps-entity clickable">${hass.states[rdsPsEntity].state}</div>
+                <div class="rds-ps-entity clickable"></div>
                 <div class="text-info">Radio Text:</div>
-                <div class="rds-rt-entity clickable">${hass.states[rdsRtEntity].state}</div>
+                <div class="rds-rt-entity clickable"></div>
               </div>
               <div class="info-container">
-                <div class="frequency-entity clickable" id="frequency_entity">${hass.states[frequencyEntity].state} MHz</div>
-                <div class="clickable" id="active_entity">${hass.states[activeEntity].state}</div>
-                <div class="clickable"><inline class="rds-pi-info">PI:</inline><inline id="rds_pi_entity">${hass.states[rdsPiEntity].state}</inline></div>
-                <div class="clickable"><inline class="rds-pi-info">CH:</inline><inline id="ch_entity">${hass.states[chEntity].state}</inline></div>
+                <div class="frequency-entity clickable" id="frequency_entity"></div>
+                <div class="clickable" id="active_entity"></div>
+                <div class="clickable"><inline class="rds-pi-info">PI:</inline><inline id="rds_pi_entity"></inline></div>
+                <div class="clickable"><inline class="rds-pi-info">CH:</inline><inline id="ch_entity"></inline></div>
               </div>
             </div>
             
@@ -196,27 +196,27 @@ class Deva4004Card extends HTMLElement {
           <div class="entity-row">
           <div class="entity-container">
             <div class="text-info">RF</div>
-            <div class="entity-value clickable" id="rf_level_entity" >${hass.states[rfLevelEntity].state} dBμV</div>
+            <div class="entity-value clickable" id="rf_level_entity" ></div>
           </div>
           <div class="entity-container">
             <div class="text-info">MPX</div>
-            <div class="entity-value clickable" id="mpx_level_entity">${hass.states[mpxLevelEntity].state} kHz</div>
+            <div class="entity-value clickable" id="mpx_level_entity"></div>
           </div>
           <div class="entity-container">
             <div class="text-info">Pilot</div>
-            <div class="entity-value clickable" id="pilot_level_entity">${hass.states[pilotLevelEntity].state} kHz</div>
+            <div class="entity-value clickable" id="pilot_level_entity"></div>
           </div>
           <div class="entity-container">
             <div class="text-info">RDS</div>
-            <div class="entity-value clickable" id="rds_level_entity">${hass.states[rdsLevelEntity].state} kHz</div>
+            <div class="entity-value clickable" id="rds_level_entity"></div>
           </div>
           <div class="entity-container">
             <div class="text-info">Left</div>
-            <div class="entity-value clickable" id="left_level_entity">${hass.states[leftLevelEntity].state} dB</div>
+            <div class="entity-value clickable" id="left_level_entity"></div>
           </div>
           <div class="entity-container">
             <div class="text-info">Right</div>
-            <div class="entity-value clickable" id="right_level_entity">${hass.states[rightLevelEntity].state} dB</div>
+            <div class="entity-value clickable" id="right_level_entity"></div>
           </div>
         </div>
 
@@ -266,7 +266,7 @@ class Deva4004Card extends HTMLElement {
     }
     
     this.querySelector(".rds-ps-entity").textContent = hass.states[rdsPsEntity].state;
-    this.querySelector(".rds-rt-entity").textContent = hass.states[rdsRtEntity].state;
+    this.querySelector(".rds-rt-entity").textContent = hass.states[rdsRtEntity].state.toString().substring(0, 60);
     this.querySelector("#rds_pi_entity").textContent = hass.states[rdsPiEntity].state;
     this.querySelector("#frequency_entity").textContent = `${hass.states[frequencyEntity].state} MHz`;
     this.querySelector("#active_entity").textContent = hass.states[activeEntity].state;
