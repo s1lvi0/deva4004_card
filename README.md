@@ -1,6 +1,6 @@
 # Deva4004 Card
 
-This is a custom card for Home Assistant, which is designed to work with DEVA Broadcast DB4004 monitoring receiver devices. It allows users to display device-specific sensor data and alarms in a compact, user-friendly way. The card features an intuitive layout, making monitoring easier and more efficient. 
+This is a custom card for Home Assistant, which is designed to work with [DB4004](https://github.com/s1lvi0/deva4004) custom integration to monitor FM Radios. It allows users to display device-specific sensor data and alarms in a compact, user-friendly way. The card features an intuitive layout, making monitoring easier and more efficient. 
 
 ## Installation
 
@@ -17,8 +17,8 @@ HACS makes the installation process very simple.
 3. Click on the three-dot menu (⋮) in the top right corner and select `Custom repositories`.
 4. Enter the URL of the Deva4004 Card repository and select `Lovelace` as the category.
 5. Click on `Add`.
-6. After the repository is added, you should be able to install the card.
-7. After the installation is complete, a pop-up will appear instructing you to rfresh Home Assistant. Please do so.
+6. After the repository is added, you should be able to download the card.
+7. After the installation is complete, a pop-up will appear instructing you to RELOAD Home Assistant. Please do so.
 
 ### Manual Installation
 
