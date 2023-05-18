@@ -96,10 +96,12 @@ class Deva4004Card extends HTMLElement {
             .rds-ps-entity {
               margin: 0 16px;
               font-size: 16px;
+              min-height: 21px;
             }
             .rds-rt-entity {
               margin: 0 5px;
               font-size: 14px;
+              min-height: 21px;
             }
             .rds-pi-entity {
               margin: 0 5px;
@@ -253,6 +255,8 @@ class Deva4004Card extends HTMLElement {
       this.querySelector("#right_level_entity").addEventListener('click', () => this.fireEvent(rightLevelEntity));
       
       this.querySelector("#rf_level_alarm").addEventListener('click', () => this.fireEvent(rfLevelAlarm));
+      this.querySelector("#mpx_level_alarm").addEventListener('click', () => this.fireEvent(mpxLevelAlarm));
+      this.querySelector("#rds_level_alarm").addEventListener('click', () => this.fireEvent(rdsLevelAlarm));
 
       if (this.config.coordinates) {
         let locationElement = this.querySelector(".location-info");
@@ -328,7 +332,6 @@ class Deva4004Card extends HTMLElement {
 }
 
 customElements.define("deva-4004-card", Deva4004Card);
-
 
 
 function set_alarm_icon(entity, element) {
