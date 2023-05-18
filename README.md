@@ -21,7 +21,7 @@ HACS makes the installation process very simple.
 4. Enter the URL of the Deva4004 Card repository and select `Lovelace` as the category.
 5. Click on `Add`.
 6. After the repository is added, you should be able to download the card.
-7. After the installation is complete, a pop-up will appear instructing you to RELOAD Home Assistant. Please do so.
+7. After the installation is complete, a pop-up will appear instructing you to `RELOAD` Home Assistant. Please do so.
 
 ### Manual Installation
 
