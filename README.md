@@ -1,5 +1,8 @@
 # Deva4004 Card
 
+![License](https://img.shields.io/github/license/s1lvi0/deva4004_card)
+[![Issues](https://img.shields.io/github/issues/s1lvi0/deva4004_card)](https://github.com/s1lvi0/deva4004_card/issues)
+
 This is a custom card for Home Assistant, which is designed to work with [deva4004](https://github.com/s1lvi0/deva4004) custom integration to monitor FM Radios. It allows users to display device-specific sensor data and alarms in a compact, user-friendly way. The card features an intuitive layout, making monitoring easier and more efficient. 
 
 ## Installation
