@@ -44,7 +44,7 @@ In the Lovelace UI, you can manually add a card with the following configuration
 | type  | string | Required    | `custom:deva-4004-card`                    
 | device | string | Required    | Name of the device to get the entities from            
 | imageEntity  | string | Optional    | Name of the image to display        
-| location | object | Optional    | Site Location name           
+| location | string | Optional    | Site Location name           
 | coordinates  | object | Optional    | Site Location coordinates     
 
 ### Example
