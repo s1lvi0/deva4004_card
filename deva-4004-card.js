@@ -8,27 +8,32 @@ function isLightBackgroundColor() {
 
 class Deva4004Card extends HTMLElement {
   set hass(hass) {
+    const instance = this.config.instance;
     const device = this.config.device;
+    const entityPrefix = instance ? `${instance}_${device}` : device;
     const imgUrlLight = this.config.imageEntity ? `/local/fm_logos/light/${this.config.imageEntity}` : "/local/fm_logos/light/radio-default.png";
-    const imgUrlDark = this.config.imageEntity ? `/local/fm_logos/dark/${this.config.imageEntity}` : "/local/fm_logos/light/radio-default.png";
+    const imgUrlDark = this.config.imageEntity ? `/local/fm_logos/dark/${this.config.imageEntity}` : "/local/fm_logos/dark/radio-default.png";
 
-    const activeEntity = `sensor.${device}_active`;
-    const frequencyEntity = `sensor.${device}_frequency`;
-    const rdsPiEntity = `sensor.${device}_rds_pi`;
-    const rdsPsEntity = `sensor.${device}_rds_ps`;
-    const rdsRtEntity = `sensor.${device}_rds_rt`;
-    const chEntity = `sensor.${device}_channel`;
+    const activeEntity = `sensor.${entityPrefix}_active`;
+    const frequencyEntity = `sensor.${entityPrefix}_frequency`;
+    const rdsPiEntity = `sensor.${entityPrefix}_rds_pi`;
+    const rdsPsEntity = `sensor.${entityPrefix}_rds_ps`;
+    const rdsRtEntity = `sensor.${entityPrefix}_rds_rt`;
+    const chEntity = `sensor.${entityPrefix}_channel`;
 
-    const rfLevelEntity = `sensor.${device}_rf_level`;
-    const mpxLevelEntity = `sensor.${device}_mpx_level`;
-    const pilotLevelEntity = `sensor.${device}_pilot_level`;
-    const rdsLevelEntity = `sensor.${device}_rds_level`;
-    const leftLevelEntity = `sensor.${device}_left_level`;
-    const rightLevelEntity = `sensor.${device}_right_level`;
+    const rfLevelEntity = `sensor.${entityPrefix}_rf_level`;
+    const mpxLevelEntity = `sensor.${entityPrefix}_mpx_level`;
+    const pilotLevelEntity = `sensor.${entityPrefix}_pilot_level`;
+    const rdsLevelEntity = `sensor.${entityPrefix}_rds_level`;
+    const leftLevelEntity = `sensor.${entityPrefix}_left_level`;
+    const rightLevelEntity = `sensor.${entityPrefix}_right_level`;
 
-    const rfLevelAlarm = `sensor.${device}_rf_alarm`;
-    const mpxLevelAlarm = `sensor.${device}_mpx_alarm`;
-    const rdsLevelAlarm = `sensor.${device}_rds_alarm`;
+    const rfLevelAlarm = `sensor.${entityPrefix}_rf_alarm`;
+    const mpxLevelAlarm = `sensor.${entityPrefix}_mpx_alarm`;
+    const rdsLevelAlarm = `sensor.${entityPrefix}_rds_alarm`;
+
+    // Fallback to old entity naming pattern if new pattern doesn't exist
+    const fallbackPrefix = `${device}_${device}`;
 
      if (!this.content) {
       this.innerHTML = `
@@ -268,40 +273,65 @@ class Deva4004Card extends HTMLElement {
     }
   
     }
-    
-    this.querySelector(".rds-ps-entity").textContent = hass.states[rdsPsEntity].state;
-    this.querySelector(".rds-rt-entity").textContent = hass.states[rdsRtEntity].state.toString().substring(0, 60);
-    this.querySelector("#rds_pi_entity").textContent = hass.states[rdsPiEntity].state;
-    this.querySelector("#frequency_entity").textContent = `${hass.states[frequencyEntity].state} MHz`;
-    this.querySelector("#active_entity").textContent = hass.states[activeEntity].state;
-    this.querySelector("#ch_entity").textContent = hass.states[chEntity].state;
 
-    this.querySelector("#rf_level_entity").textContent = `${hass.states[rfLevelEntity].state} dBμV`;
-    this.querySelector("#mpx_level_entity").textContent = `${hass.states[mpxLevelEntity].state} kHz`;
-    this.querySelector("#pilot_level_entity").textContent = `${hass.states[pilotLevelEntity].state} kHz`;
-    this.querySelector("#rds_level_entity").textContent = `${hass.states[rdsLevelEntity].state} kHz`;
-    this.querySelector("#left_level_entity").textContent = `${hass.states[leftLevelEntity].state} dB`;
-    this.querySelector("#right_level_entity").textContent = `${hass.states[rightLevelEntity].state} dB`;
+    // Fallback to old entity names if new ones don't exist
+    const getEntity = (newName, oldSuffix) => {
+      const oldName = `sensor.${fallbackPrefix}_${oldSuffix}`;
+      return hass.states[newName] || hass.states[oldName];
+    };
 
-    set_alarm_icon(hass.states[rfLevelAlarm].state, this.querySelector("#rf_level_alarm"));
-    set_alarm_icon(hass.states[mpxLevelAlarm].state, this.querySelector("#mpx_level_alarm"));
-    set_alarm_icon(hass.states[rdsLevelAlarm].state, this.querySelector("#rds_level_alarm"));
+    const rdsPsState = getEntity(rdsPsEntity, 'rds_ps');
+    const rdsRtState = getEntity(rdsRtEntity, 'rds_rt');
+    const rdsPiState = getEntity(rdsPiEntity, 'rds_pi');
+    const frequencyState = hass.states[frequencyEntity];
+    const activeState = hass.states[activeEntity];
+    const chState = hass.states[chEntity];
+    const rfLevelState = getEntity(rfLevelEntity, 'rf_level');
+    const mpxLevelState = getEntity(mpxLevelEntity, 'mpx_level');
+    const pilotLevelState = getEntity(pilotLevelEntity, 'pilot_level');
+    const rdsLevelState = getEntity(rdsLevelEntity, 'rds_level');
+    const leftLevelState = getEntity(leftLevelEntity, 'left_level');
+    const rightLevelState = getEntity(rightLevelEntity, 'right_level');
+    const rfAlarmState = getEntity(rfLevelAlarm, 'rf_alarm');
+    const mpxAlarmState = getEntity(mpxLevelAlarm, 'mpx_alarm');
+    const rdsAlarmState = getEntity(rdsLevelAlarm, 'rds_alarm');
+
+    // Check if all required entities exist
+    if (!rdsPsState || !rdsRtState || !rdsPiState || !frequencyState || !activeState || !chState ||
+        !rfLevelState || !mpxLevelState || !pilotLevelState || !rdsLevelState ||
+        !leftLevelState || !rightLevelState || !rfAlarmState || !mpxAlarmState || !rdsAlarmState) {
+      return; // Exit early if entities don't exist yet
+    }
+
+    this.querySelector(".rds-ps-entity").textContent = rdsPsState.state;
+    this.querySelector(".rds-rt-entity").textContent = rdsRtState.state.toString().substring(0, 60);
+    this.querySelector("#rds_pi_entity").textContent = rdsPiState.state;
+    this.querySelector("#frequency_entity").textContent = `${frequencyState.state} MHz`;
+    this.querySelector("#active_entity").textContent = activeState.state;
+    this.querySelector("#ch_entity").textContent = chState.state;
+
+    this.querySelector("#rf_level_entity").textContent = `${rfLevelState.state} dBμV`;
+    this.querySelector("#mpx_level_entity").textContent = `${mpxLevelState.state} kHz`;
+    this.querySelector("#pilot_level_entity").textContent = `${pilotLevelState.state} kHz`;
+    this.querySelector("#rds_level_entity").textContent = `${rdsLevelState.state} kHz`;
+    this.querySelector("#left_level_entity").textContent = `${leftLevelState.state} dB`;
+    this.querySelector("#right_level_entity").textContent = `${rightLevelState.state} dB`;
+
+    set_alarm_icon(rfAlarmState.state, this.querySelector("#rf_level_alarm"));
+    set_alarm_icon(mpxAlarmState.state, this.querySelector("#mpx_level_alarm"));
+    set_alarm_icon(rdsAlarmState.state, this.querySelector("#rds_level_alarm"));
   
     const imageElement = this.querySelector(".image-container img");
-  
+
     if (isLightBackgroundColor()) {
       imageElement.src = imgUrlDark;
     } else {
       imageElement.src = imgUrlLight;
     }
 
-    let rfAlarmState = hass.states[rfLevelAlarm].state;
-    let mpxAlarmState = hass.states[mpxLevelAlarm].state;
-    let rdsAlarmState = hass.states[rdsLevelAlarm].state;
-    
-    let anyAlarmTriggered = rfAlarmState === "Alarm LOW" || rfAlarmState === "Alarm HIGH" || 
-                           mpxAlarmState === "Alarm LOW" || mpxAlarmState === "Alarm HIGH" ||
-                           rdsAlarmState === "Alarm LOW" || rdsAlarmState === "Alarm HIGH";
+    let anyAlarmTriggered = rfAlarmState.state === "Alarm LOW" || rfAlarmState.state === "Alarm HIGH" ||
+                           mpxAlarmState.state === "Alarm LOW" || mpxAlarmState.state === "Alarm HIGH" ||
+                           rdsAlarmState.state === "Alarm LOW" || rdsAlarmState.state === "Alarm HIGH";
   
     let cardElement = this.querySelector("ha-card");
     cardElement.classList.remove("alarm-triggered");
