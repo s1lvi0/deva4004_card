@@ -4,6 +4,6 @@
   "render_readme": true,
   "filename": "deva-4004-card.js",
   "dir": "/",
-  "homeassistant": "2023.5.0",
+  "homeassistant": "2025.10.0",
   "category": "frontend"
 }
